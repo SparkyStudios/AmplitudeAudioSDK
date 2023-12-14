@@ -18,14 +18,6 @@ set(PROJECT_NAME ss_amplitude_audio_samples)
 
 project(${PROJECT_NAME})
 
-add_custom_target(ss_amplitude_audio_sample_assets
-    COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/../scripts/build_assets.py --output ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/samples/assets
-)
-
-add_dependencies(ss_amplitude_audio_sample_assets
-    amplitude_build_binary_schemas
-)
-
 add_subdirectory(sample_01)
 add_subdirectory(sample_02)
 

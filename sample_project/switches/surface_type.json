@@ -1,0 +1,26 @@
+{
+  "id": 1,
+  "name": "surface_type",
+  "states": [
+    {
+      "id": 1,
+      "name": "wood"
+    },
+    {
+      "id": 2,
+      "name": "water"
+    },
+    {
+      "id": 3,
+      "name": "metal"
+    },
+    {
+      "id": 4,
+      "name": "grass"
+    },
+    {
+      "id": 5,
+      "name": "snow"
+    }
+  ]
+}

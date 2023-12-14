@@ -1,0 +1,22 @@
+{
+  "id": 3,
+  "name": "throw_03",
+  "gain": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "bus": 2,
+  "priority": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "stream": false,
+  "loop": {
+    "enabled": false,
+    "loop_count": 5
+  },
+  "spatialization": "Position",
+  "attenuation": 1,
+  "fader": "Linear",
+  "path": "throw_03.ogg"
+}

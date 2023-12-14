@@ -12,6 +12,12 @@
       "dependencies": [
         "sdl2"
       ]
+    },
+    "tests": {
+      "description": "Amplitude Audio SDK Unit Tests",
+      "dependencies": [
+        "catch2"
+      ]
     }
   },
   "dependencies": [

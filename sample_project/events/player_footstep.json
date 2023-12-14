@@ -1,0 +1,14 @@
+{
+  "name": "player_footstep",
+  "id": 876,
+  "actions": [
+    {
+      "type": "Play",
+      "active": true,
+      "targets": [
+        200
+      ],
+      "scope": "Entity"
+    }
+  ]
+}

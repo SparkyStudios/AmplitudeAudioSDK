@@ -1,0 +1,15 @@
+{
+  "id": 5,
+  "name": "bassboost",
+  "effect": "BassBoost",
+  "parameters": [
+    {
+      "kind": "Static",
+      "value": 1
+    },
+    {
+      "kind": "Static",
+      "value": 11
+    }
+  ]
+}

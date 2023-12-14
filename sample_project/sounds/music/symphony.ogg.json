@@ -1,0 +1,24 @@
+{
+  "id": 101,
+  "name": "symphony",
+  "gain": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "bus": 1,
+  "priority": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "stream": false,
+  "loop": {
+    "enabled": true,
+    "loop_count": 0
+  },
+  "scope": "World",
+  "spatialization": "None",
+  "effect": 0,
+  "attenuation": 0,
+  "fader": "Linear",
+  "path": "abcdefu.flac"
+}

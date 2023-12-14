@@ -1,0 +1,87 @@
+{
+  "id": 1003,
+  "name": "grass_footsteps",
+  "priority": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "gain": {
+    "kind": "Static",
+    "value": 0.0625
+  },
+  "bus": 2,
+  "sounds_type": [
+    "Random",
+    "Random",
+    "Random",
+    "Random",
+    "Random",
+    "Random",
+    "Random",
+    "Random"
+  ],
+  "sounds": [
+    {
+      "sound": 201,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 202,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 203,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 204,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 205,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 206,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 207,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    }
+  ],
+  "spatialization": "Position",
+  "attenuation": 1,
+  "play_mode": "PlayOne",
+  "scheduler": {
+    "mode": "Random",
+    "config_type": "Random",
+    "config": {
+      "avoid_repeat": true,
+      "repeat_count": 4
+    }
+  },
+  "scope": "Entity",
+  "fader": "Linear"
+}

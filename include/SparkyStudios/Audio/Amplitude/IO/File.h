@@ -64,25 +64,52 @@ namespace SparkyStudios::Audio::Amplitude
         [[nodiscard]] virtual AmOsString GetPath() const = 0;
 
         /**
-         * @brief Read a single byte from the file in an AmUInt8.
+         * @brief Reads a single byte from the file in an AmUInt8.
          *
          * @return The read value.
          */
         AmUInt8 Read8();
 
         /**
-         * @brief Read two bytes from the file in an AmUInt16.
+         * @brief Reads two bytes from the file in an AmUInt16.
          *
          * @return The read value.
          */
         AmUInt16 Read16();
 
         /**
-         * @brief Read four bytes from the file in an AmUInt32.
+         * @brief Reads four bytes from the file in an AmUInt32.
          *
          * @return The read value.
          */
         AmUInt32 Read32();
+
+        /**
+         * @brief Writes a single byte to the file as an AmUInt8.
+         *
+         * @param value The value to write.
+         *
+         * @return The number of byte written.
+         */
+        AmSize Write8(AmUInt8 value);
+
+        /**
+         * @brief Writes two bytes to the file as an AmUInt16.
+         *
+         * @param value The value to write.
+         *
+         * @return The number of byte written.
+         */
+        AmSize Write16(AmUInt16 value);
+
+        /**
+         * @brief Writes four bytes from the file as an AmUInt32.
+         *
+         * @param value The value to write.
+         *
+         * @return The number of byte written.
+         */
+        AmSize Write32(AmUInt32 value);
 
         /**
          * @brief Check if the read cursor is at the end of the file.
@@ -261,6 +288,15 @@ namespace SparkyStudios::Audio::Amplitude
         [[nodiscard]] bool IsValid() const override;
 
         /**
+         * @brief Creates and open a memory file with the given size.
+         *
+         * @param size The size of the memory buffer.
+         *
+         * @return The result of the operation.
+         */
+        AmResult Open(AmSize size);
+
+        /**
          * @brief Opens a memory buffer.
          *
          * @param buffer The memory buffer to open.
@@ -289,6 +325,11 @@ namespace SparkyStudios::Audio::Amplitude
          * @return The result of the operation.
          */
         AmResult OpenFileToMem(File* file);
+
+        /**
+         * @brief Closes the file.
+         */
+        void Close();
 
     private:
         AmUInt8Buffer m_dataPtr;

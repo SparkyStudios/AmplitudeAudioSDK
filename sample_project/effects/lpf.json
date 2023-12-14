@@ -1,0 +1,27 @@
+{
+  "id": 6,
+  "name": "lpf",
+  "effect": "BiquadResonant",
+  "parameters": [
+    {
+      "kind": "Static",
+      "value": 1
+    },
+    {
+      "kind": "Static",
+      "value": 0
+    },
+    {
+      "kind": "Static",
+      "value": 2400
+    },
+    {
+      "kind": "Static",
+      "value": 1
+    },
+    {
+      "kind": "Static",
+      "value": 0
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "buses": [
+    {
+      "id": 1,
+      "name": "master",
+      "gain": 1.0,
+      "child_buses": [
+        2,
+        7678456242523
+      ],
+      "fader": "Linear"
+    },
+    {
+      "id": 2,
+      "name": "effects",
+      "gain": 1,
+      "duck_buses": [
+        {
+          "id": 7678456242523,
+          "target_gain": 0.5,
+          "fade_in": {
+            "duration": 3,
+            "fader": "SCurveSmooth"
+          },
+          "fade_out": {
+            "duration": 3,
+            "fader": "Linear"
+          }
+        }
+      ],
+      "fader": "Linear"
+    },
+    {
+      "id": 7678456242523,
+      "name": "environment",
+      "gain": 0.25,
+      "fader": "Linear"
+    }
+  ]
+}

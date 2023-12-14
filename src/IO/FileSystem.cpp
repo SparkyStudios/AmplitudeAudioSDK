@@ -25,13 +25,18 @@ namespace SparkyStudios::Audio::Amplitude
     void DiskFileSystem::SetBasePath(const AmOsString& basePath)
     {
         const auto& p = std::filesystem::path(basePath);
-        _basePath = p.is_relative() ? (std::filesystem::current_path() / p).make_preferred() : p;
+        _basePath = p.is_relative() ? (std::filesystem::current_path() / p).lexically_normal().make_preferred() : p;
+    }
+
+    const AmOsString& DiskFileSystem::GetBasePath() const
+    {
+        return _basePath.native();
     }
 
     AmOsString DiskFileSystem::ResolvePath(const AmOsString& path) const
     {
         const auto& p = std::filesystem::path(path);
-        return p.is_relative() ? (_basePath / p).make_preferred() : p;
+        return p.is_relative() ? (_basePath / p).lexically_normal().make_preferred() : p;
     }
 
     bool DiskFileSystem::Exists(const AmOsString& path) const
@@ -56,7 +61,7 @@ namespace SparkyStudios::Audio::Amplitude
         for (AmSize i = 1, l = parts.size(); i < l; i++)
             joined /= parts[i];
 
-        return joined.native();
+        return joined.lexically_normal().make_preferred().native();
     }
 
     std::shared_ptr<File> DiskFileSystem::OpenFile(const AmOsString& path) const

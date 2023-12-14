@@ -49,6 +49,13 @@ namespace SparkyStudios::Audio::Amplitude
         virtual void SetBasePath(const AmOsString& basePath) = 0;
 
         /**
+         * @brief Gets the filesystem base path.
+         *
+         * @return The filesystem base path.
+         */
+        [[nodiscard]] virtual const AmOsString& GetBasePath() const = 0;
+
+        /**
          * @brief Resolves a relative path from the filesystem base path.
          *
          * @return The resolved path.
@@ -148,6 +155,7 @@ namespace SparkyStudios::Audio::Amplitude
         DiskFileSystem();
 
         void SetBasePath(const AmOsString& basePath) override;
+        [[nodiscard]] const AmOsString& GetBasePath() const override;
         [[nodiscard]] AmOsString ResolvePath(const AmOsString& path) const override;
         [[nodiscard]] bool Exists(const AmOsString& path) const override;
         [[nodiscard]] bool IsDirectory(const AmOsString& path) const override;

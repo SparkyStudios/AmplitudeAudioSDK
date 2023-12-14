@@ -21,9 +21,14 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(DetectAmplitudeVersion)
 
 option(BUILD_SAMPLES "Build samples" OFF)
+option(UNIT_TESTS "Enable Unit Testing" OFF)
 
 if(BUILD_SAMPLES)
     list(APPEND VCPKG_MANIFEST_FEATURES "samples")
+endif()
+
+if(UNIT_TESTS)
+    list(APPEND VCPKG_MANIFEST_FEATURES "tests")
 endif()
 
 project(Amplitude VERSION ${DETECTED_AM_VERSION})
@@ -395,8 +400,22 @@ endforeach()
 
 add_subdirectory(tools/amac)
 
+if (BUILD_SAMPLES OR UNIT_TESTS)
+    add_custom_target(ss_amplitude_audio_sample_project
+        COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/scripts/build_assets.py --output ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/sample_project
+    )
+
+    add_dependencies(ss_amplitude_audio_sample_project
+        amplitude_build_binary_schemas
+    )
+endif()
+
 if(BUILD_SAMPLES)
     add_subdirectory(samples)
+endif()
+
+if(UNIT_TESTS)
+    add_subdirectory(tests)
 endif()
 
 # #####################################################

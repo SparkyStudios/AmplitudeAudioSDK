@@ -148,12 +148,18 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE:STRING="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake" \
             -DVCPKG_TARGET_TRIPLET:STRING="${{ matrix.config.target_triplet }}" \
             -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE \
-            -DBUILD_SAMPLES:BOOL=TRUE
+            -DBUILD_SAMPLES:BOOL=TRUE \
+            -DUNIT_TESTS:BOOL=TRUE
 
       - name: Build
         shell: bash
         working-directory: ${{ inputs.project-path }}/build
         run: cmake --build . --config ${{ matrix.build_type }}
+
+      - name: Test
+        shell: bash
+        working-directory: ${{ inputs.project-path }}/build/tests
+        run: ctest -j1 -C ${{ matrix.build_type }} --output-on-failure
 
       - name: Install Strip
         shell: bash

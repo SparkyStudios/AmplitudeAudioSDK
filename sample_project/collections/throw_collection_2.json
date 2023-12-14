@@ -1,0 +1,94 @@
+{
+  "id": 1002,
+  "name": "throw_collection_2",
+  "priority": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "gain": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "bus": 2,
+  "sounds_type": [
+    "Sequence",
+    "Sequence",
+    "Sequence",
+    "Sequence",
+    "Sequence",
+    "Sequence",
+    "Sequence",
+    "Sequence"
+  ],
+  "sounds": [
+    {
+      "sound": 1,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 2,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 3,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 4,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 5,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 6,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 7,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 8,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    }
+  ],
+  "spatialization": "Position",
+  "attenuation": 1,
+  "play_mode": "PlayOne",
+  "scheduler": {
+    "mode": "Random",
+    "config_type": "Random",
+    "config": {
+      "avoid_repeat": true,
+      "repeat_count": 5
+    }
+  },
+  "scope": "World",
+  "fader": "Linear"
+}

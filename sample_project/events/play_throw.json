@@ -1,0 +1,14 @@
+{
+  "name": "play_throw",
+  "id": 123456787654,
+  "actions": [
+    {
+      "type": "Play",
+      "active": true,
+      "targets": [
+        1002
+      ],
+      "scope": "World"
+    }
+  ]
+}

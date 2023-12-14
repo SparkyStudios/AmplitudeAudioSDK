@@ -1,0 +1,14 @@
+{
+  "name": "mute_bg_bus",
+  "id": 5,
+  "actions": [
+    {
+      "type": "MuteBus",
+      "active": true,
+      "targets": [
+        7678456242523
+      ],
+      "scope": "Entity"
+    }
+  ]
+}

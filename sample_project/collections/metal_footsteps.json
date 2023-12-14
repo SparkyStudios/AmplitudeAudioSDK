@@ -1,0 +1,46 @@
+{
+  "id": 1005,
+  "name": "metal_footsteps",
+  "priority": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "gain": {
+    "kind": "Static",
+    "value": 0.0625
+  },
+  "bus": 2,
+  "sounds_type": [
+    "Random",
+    "Random"
+  ],
+  "sounds": [
+    {
+      "sound": 210,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    },
+    {
+      "sound": 211,
+      "gain": {
+        "kind": "Static",
+        "value": 1.0
+      }
+    }
+  ],
+  "spatialization": "Position",
+  "attenuation": 1,
+  "play_mode": "PlayOne",
+  "scheduler": {
+    "mode": "Random",
+    "config_type": "Random",
+    "config": {
+      "avoid_repeat": true,
+      "repeat_count": 1
+    }
+  },
+  "scope": "Entity",
+  "fader": "Linear"
+}

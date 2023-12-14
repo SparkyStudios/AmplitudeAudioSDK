@@ -47,5 +47,5 @@ target_link_libraries(${PROJECT_NAME}
 
 add_dependencies(${PROJECT_NAME}
     Shared
-    ss_amplitude_audio_sample_assets
+    ss_amplitude_audio_sample_project
 )

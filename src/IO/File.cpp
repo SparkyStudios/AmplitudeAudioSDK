@@ -38,6 +38,21 @@ namespace SparkyStudios::Audio::Amplitude
         return d;
     }
 
+    AmSize File::Write8(AmUInt8 value)
+    {
+        return Write(&value, 1);
+    }
+
+    AmSize File::Write16(AmUInt16 value)
+    {
+        return Write(reinterpret_cast<AmUInt8Buffer>(&value), 2);
+    }
+
+    AmSize File::Write32(AmUInt32 value)
+    {
+        return Write(reinterpret_cast<AmUInt8Buffer>(&value), 4);
+    }
+
     void File::Seek(AmSize offset)
     {
         Seek(offset, SEEK_SET);
@@ -74,7 +89,7 @@ namespace SparkyStudios::Audio::Amplitude
 
     bool DiskFile::Eof()
     {
-        return feof(m_fileHandle) != 0;
+        return feof(m_fileHandle);
     }
 
     AmSize DiskFile::Read(AmUInt8Buffer dst, AmSize bytes)
@@ -184,13 +199,7 @@ namespace SparkyStudios::Audio::Amplitude
 
     MemoryFile::~MemoryFile()
     {
-        if (m_dataOwned && m_dataPtr != nullptr)
-            ampoolfree(MemoryPoolKind::IO, m_dataPtr);
-
-        m_dataPtr = nullptr;
-        m_dataSize = 0;
-        m_offset = 0;
-        m_dataOwned = false;
+        Close();
     }
 
     AmOsString MemoryFile::GetPath() const
@@ -205,6 +214,9 @@ namespace SparkyStudios::Audio::Amplitude
 
     AmSize MemoryFile::Read(AmUInt8Buffer dst, AmSize bytes)
     {
+        if (m_offset > m_dataSize)
+            return 0;
+
         if (m_offset + bytes >= m_dataSize)
             bytes = m_dataSize - m_offset;
 
@@ -236,10 +248,7 @@ namespace SparkyStudios::Audio::Amplitude
         else if (origin == SEEK_CUR)
             m_offset += offset;
         else if (origin == SEEK_END)
-            m_offset = m_dataSize - offset;
-
-        if (m_offset > m_dataSize - 1)
-            m_offset = m_dataSize - 1;
+            m_offset = m_dataSize + offset;
     }
 
     AmSize MemoryFile::Position()
@@ -255,6 +264,11 @@ namespace SparkyStudios::Audio::Amplitude
     bool MemoryFile::IsValid() const
     {
         return m_dataPtr != nullptr;
+    }
+
+    AmResult MemoryFile::Open(AmSize size)
+    {
+        return OpenMem(static_cast<AmConstUInt8Buffer>(ampoolmalloc(MemoryPoolKind::IO, size)), size, false, true);
     }
 
     AmResult MemoryFile::OpenMem(AmConstUInt8Buffer buffer, AmSize size, bool copy, bool takeOwnership)
@@ -341,5 +355,16 @@ namespace SparkyStudios::Audio::Amplitude
         m_dataOwned = true;
 
         return AM_ERROR_NO_ERROR;
+    }
+
+    void MemoryFile::Close()
+    {
+        if (m_dataOwned && m_dataPtr != nullptr)
+            ampoolfree(MemoryPoolKind::IO, m_dataPtr);
+
+        m_dataPtr = nullptr;
+        m_dataSize = 0;
+        m_offset = 0;
+        m_dataOwned = false;
     }
 } // namespace SparkyStudios::Audio::Amplitude

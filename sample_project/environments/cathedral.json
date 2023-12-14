@@ -1,0 +1,14 @@
+{
+  "id": 1,
+  "name": "cathedral",
+  "effect": 6,
+  "zone_type": "Sphere",
+  "zone": {
+    "inner": {
+      "radius": 10
+    },
+    "outer": {
+      "radius": 25
+    }
+  }
+}

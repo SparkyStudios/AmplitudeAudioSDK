@@ -1,0 +1,14 @@
+{
+  "name": "stop_throw",
+  "id": 7807787654,
+  "actions": [
+    {
+      "type": "Stop",
+      "active": true,
+      "targets": [
+        1001
+      ],
+      "scope": "Entity"
+    }
+  ]
+}

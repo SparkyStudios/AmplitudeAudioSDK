@@ -1,0 +1,22 @@
+{
+  "id": 204,
+  "name": "d",
+  "gain": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "bus": 2,
+  "priority": {
+    "kind": "Static",
+    "value": 1.0
+  },
+  "stream": false,
+  "loop": {
+    "enabled": false,
+    "loop_count": 0
+  },
+  "spatialization": "Position",
+  "attenuation": 1,
+  "fader": "Linear",
+  "path": "footsteps/grass/d.mp3"
+}
