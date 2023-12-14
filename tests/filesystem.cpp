@@ -21,9 +21,9 @@ using namespace SparkyStudios::Audio::Amplitude;
 TEST_CASE("DiskFileSystem Tests", "[filesystem][amplitude]")
 {
     DiskFileSystem fileSystem;
-    fileSystem.SetBasePath("./sample_project");
+    fileSystem.SetBasePath(AM_OS_STRING("./sample_project"));
 
-    const auto& cp = std::filesystem::current_path() / "sample_project";
+    const auto& cp = std::filesystem::current_path() / AM_OS_STRING("sample_project");
 
     SECTION("can sets the base path")
     {
@@ -32,43 +32,43 @@ TEST_CASE("DiskFileSystem Tests", "[filesystem][amplitude]")
 
     SECTION("can resolve paths")
     {
-        REQUIRE(fileSystem.ResolvePath("sounds/test.wav") == (cp / "sounds/test.wav"));
-        REQUIRE(fileSystem.ResolvePath("../sample_project/sounds/../test.wav") == (cp / "test.wav"));
-        REQUIRE(fileSystem.ResolvePath("./sounds/../sounds/./test.wav") == (cp / "sounds/test.wav"));
+        REQUIRE(fileSystem.ResolvePath(AM_OS_STRING("sounds/test.wav")) == (cp / AM_OS_STRING("sounds/test.wav")));
+        REQUIRE(fileSystem.ResolvePath(AM_OS_STRING("../sample_project/sounds/../test.wav")) == (cp / AM_OS_STRING("test.wav")));
+        REQUIRE(fileSystem.ResolvePath(AM_OS_STRING("./sounds/../sounds/./test.wav")) == (cp / AM_OS_STRING("sounds/test.wav")));
     }
 
     SECTION("can check if files exists")
     {
-        REQUIRE(fileSystem.Exists("audio_config.amconfig"));
-        REQUIRE_FALSE(fileSystem.Exists("some_random_file.ext"));
+        REQUIRE(fileSystem.Exists(AM_OS_STRING("audio_config.amconfig")));
+        REQUIRE_FALSE(fileSystem.Exists(AM_OS_STRING("some_random_file.ext")));
     }
 
     SECTION("can detect if a file is a directory")
     {
-        REQUIRE(fileSystem.IsDirectory("sounds"));
-        REQUIRE_FALSE(fileSystem.IsDirectory("audio_config.amconfig"));
+        REQUIRE(fileSystem.IsDirectory(AM_OS_STRING("sounds")));
+        REQUIRE_FALSE(fileSystem.IsDirectory(AM_OS_STRING("audio_config.amconfig")));
     }
 
     SECTION("can join paths")
     {
-        REQUIRE(fileSystem.Join({ "sounds", "test.wav" }) == "sounds/test.wav");
-        REQUIRE(fileSystem.Join({ "../sample_project/sounds/../test.wav" }) == "../sample_project/test.wav");
-        REQUIRE(fileSystem.Join({ "./sounds", "../sounds/", "./test.wav" }) == "sounds/test.wav");
+        REQUIRE(fileSystem.Join({ AM_OS_STRING("sounds"), AM_OS_STRING("test.wav") }) == AM_OS_STRING("sounds/test.wav"));
+        REQUIRE(fileSystem.Join({ AM_OS_STRING("../sample_project/sounds/../test.wav") }) == AM_OS_STRING("../sample_project/test.wav"));
+        REQUIRE(fileSystem.Join({ AM_OS_STRING("./sounds"), AM_OS_STRING("../sounds/"), AM_OS_STRING("./test.wav") }) == AM_OS_STRING("sounds/test.wav"));
     }
 
     SECTION("can open files")
     {
-        REQUIRE(fileSystem.OpenFile("audio_config.amconfig")->IsValid());
-        REQUIRE_FALSE(fileSystem.OpenFile("some_random_file.ext")->IsValid());
+        REQUIRE(fileSystem.OpenFile(AM_OS_STRING("audio_config.amconfig"))->IsValid());
+        REQUIRE_FALSE(fileSystem.OpenFile(AM_OS_STRING("some_random_file.ext"))->IsValid());
     }
 }
 
 TEST_CASE("DiskFileSystem DiskFile Tests", "[filesystem][amplitude]")
 {
     DiskFileSystem fileSystem;
-    fileSystem.SetBasePath("./sample_project");
+    fileSystem.SetBasePath(AM_OS_STRING("./sample_project"));
 
-    const auto& file = fileSystem.OpenFile("test_data/diskfile_read_test.txt");
+    const auto& file = fileSystem.OpenFile(AM_OS_STRING("test_data/diskfile_read_test.txt"));
 
     SECTION("can open files")
     {
@@ -77,7 +77,7 @@ TEST_CASE("DiskFileSystem DiskFile Tests", "[filesystem][amplitude]")
 
     SECTION("can return the correct file path")
     {
-        REQUIRE(file->GetPath() == fileSystem.ResolvePath("test_data/diskfile_read_test.txt"));
+        REQUIRE(file->GetPath() == fileSystem.ResolvePath(AM_OS_STRING("test_data/diskfile_read_test.txt")));
     }
 
     SECTION("can return the correct file size")
@@ -125,9 +125,9 @@ TEST_CASE("DiskFileSystem DiskFile Tests", "[filesystem][amplitude]")
 TEST_CASE("Native DiskFile Tests", "[filesystem][amplitude]")
 {
     DiskFileSystem fileSystem;
-    fileSystem.SetBasePath("./sample_project");
+    fileSystem.SetBasePath(AM_OS_STRING("./sample_project"));
 
-    DiskFile file(fileSystem.ResolvePath("test_data/diskfile_read_test.txt"), eFOM_READWRITE, eFOK_BINARY);
+    DiskFile file(fileSystem.ResolvePath(AM_OS_STRING("test_data/diskfile_read_test.txt")), eFOM_READWRITE, eFOK_BINARY);
 
     SECTION("can open files")
     {
@@ -136,7 +136,7 @@ TEST_CASE("Native DiskFile Tests", "[filesystem][amplitude]")
 
     SECTION("can return the correct file path")
     {
-        REQUIRE(file.GetPath() == fileSystem.ResolvePath("test_data/diskfile_read_test.txt"));
+        REQUIRE(file.GetPath() == fileSystem.ResolvePath(AM_OS_STRING("test_data/diskfile_read_test.txt")));
     }
 
     SECTION("can return the correct file size")
@@ -204,7 +204,7 @@ TEST_CASE("MemoryFile Tests", "[filesystem][amplitude]")
     SECTION("can open files")
     {
         DiskFileSystem fileSystem;
-        fileSystem.SetBasePath("./sample_project");
+        fileSystem.SetBasePath(AM_OS_STRING("./sample_project"));
 
         REQUIRE(file.IsValid());
 
@@ -218,6 +218,8 @@ TEST_CASE("MemoryFile Tests", "[filesystem][amplitude]")
         REQUIRE(file.GetPtr() == ok);
 
         file.Close();
+        REQUIRE(ok[0] == 'O');
+        REQUIRE(ok[1] == 'K');
         REQUIRE(file.OpenMem(reinterpret_cast<AmConstUInt8Buffer>(ok), 2, true, true) == AM_ERROR_NO_ERROR);
         REQUIRE(file.IsValid());
         REQUIRE(file.Read(reinterpret_cast<AmUInt8Buffer>(ok), 2) == 2);
@@ -227,14 +229,14 @@ TEST_CASE("MemoryFile Tests", "[filesystem][amplitude]")
         file.Close();
         REQUIRE(file.OpenToMem("") == AM_ERROR_INVALID_PARAMETER);
         REQUIRE_FALSE(file.IsValid());
-        REQUIRE(file.OpenToMem(fileSystem.ResolvePath("test_data/diskfile_read_test.txt")) == AM_ERROR_NO_ERROR);
+        REQUIRE(file.OpenToMem(fileSystem.ResolvePath(AM_OS_STRING("test_data/diskfile_read_test.txt"))) == AM_ERROR_NO_ERROR);
         REQUIRE(file.IsValid());
         REQUIRE(file.Read(reinterpret_cast<AmUInt8Buffer>(ok), 2) == 2);
         REQUIRE(ok[0] == 'O');
         REQUIRE(ok[1] == 'K');
 
         file.Close();
-        DiskFile df(fileSystem.ResolvePath("test_data/diskfile_read_test.txt"), eFOM_READ, eFOK_BINARY);
+        DiskFile df(fileSystem.ResolvePath(AM_OS_STRING("test_data/diskfile_read_test.txt")), eFOM_READ, eFOK_BINARY);
         REQUIRE(file.OpenFileToMem(nullptr) == AM_ERROR_INVALID_PARAMETER);
         REQUIRE_FALSE(file.IsValid());
         REQUIRE(file.OpenFileToMem(&df) == AM_ERROR_NO_ERROR);
