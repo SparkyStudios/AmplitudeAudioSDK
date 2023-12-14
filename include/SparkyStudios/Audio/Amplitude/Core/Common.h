@@ -95,6 +95,14 @@
  */
 #define AM_UNUSED(x) ((void)(x))
 
+/**
+ * @brief Turn X into a string literal.
+ *
+ * @param x The value to transform into a string literal
+ */
+#define AM_STRING_EXPAND(X) #X
+#define AM_TO_STRING(X) AM_STRING_EXPAND(X)
+
 namespace SparkyStudios::Audio::Amplitude
 {
     /**

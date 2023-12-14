@@ -16,10 +16,6 @@
 
 namespace SparkyStudios::Audio::Amplitude
 {
-// Turn X into a string literal.
-#define AM_STRING_EXPAND(X) #X
-#define AM_STRING(X) AM_STRING_EXPAND(X)
-
     /**
      * @brief String which identifies the current version of Amplitude.
      */
@@ -28,10 +24,10 @@ namespace SparkyStudios::Audio::Amplitude
         AM_VERSION_MAJOR,
         AM_VERSION_MINOR,
         AM_VERSION_PATCH,
-        "Amplitude "
-        AM_STRING(AM_VERSION_MAJOR) "."
-        AM_STRING(AM_VERSION_MINOR) "."
-        AM_STRING(AM_VERSION_PATCH)
+        "Amplitude Audio SDK "
+        AM_TO_STRING(AM_VERSION_MAJOR) "."
+        AM_TO_STRING(AM_VERSION_MINOR) "."
+        AM_TO_STRING(AM_VERSION_PATCH)
     };
     // clang-format on
 

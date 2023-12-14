@@ -32,9 +32,15 @@ TEST_CASE("DiskFileSystem Tests", "[filesystem][amplitude]")
 
     SECTION("can resolve paths")
     {
-        REQUIRE(fileSystem.ResolvePath(AM_OS_STRING("sounds/test.wav")) == (cp / AM_OS_STRING("sounds/test.wav")));
-        REQUIRE(fileSystem.ResolvePath(AM_OS_STRING("../sample_project/sounds/../test.wav")) == (cp / AM_OS_STRING("test.wav")));
-        REQUIRE(fileSystem.ResolvePath(AM_OS_STRING("./sounds/../sounds/./test.wav")) == (cp / AM_OS_STRING("sounds/test.wav")));
+        REQUIRE(
+            fileSystem.ResolvePath(AM_OS_STRING("sounds/test.wav")) ==
+            (cp / AM_OS_STRING("sounds/test.wav")).lexically_normal().make_preferred().native());
+        REQUIRE(
+            fileSystem.ResolvePath(AM_OS_STRING("../sample_project/sounds/../test.wav")) ==
+            (cp / AM_OS_STRING("test.wav")).lexically_normal().make_preferred().native());
+        REQUIRE(
+            fileSystem.ResolvePath(AM_OS_STRING("./sounds/../sounds/./test.wav")) ==
+            (cp / AM_OS_STRING("sounds/test.wav")).lexically_normal().make_preferred().native());
     }
 
     SECTION("can check if files exists")
@@ -51,9 +57,15 @@ TEST_CASE("DiskFileSystem Tests", "[filesystem][amplitude]")
 
     SECTION("can join paths")
     {
-        REQUIRE(fileSystem.Join({ AM_OS_STRING("sounds"), AM_OS_STRING("test.wav") }) == AM_OS_STRING("sounds/test.wav"));
-        REQUIRE(fileSystem.Join({ AM_OS_STRING("../sample_project/sounds/../test.wav") }) == AM_OS_STRING("../sample_project/test.wav"));
-        REQUIRE(fileSystem.Join({ AM_OS_STRING("./sounds"), AM_OS_STRING("../sounds/"), AM_OS_STRING("./test.wav") }) == AM_OS_STRING("sounds/test.wav"));
+        REQUIRE(
+            fileSystem.Join({ AM_OS_STRING("sounds"), AM_OS_STRING("test.wav") }) ==
+            std::filesystem::path(AM_OS_STRING("sounds/test.wav")).lexically_normal().make_preferred().native());
+        REQUIRE(
+            fileSystem.Join({ AM_OS_STRING("../sample_project/sounds/../test.wav") }) ==
+            std::filesystem::path(AM_OS_STRING("../sample_project/test.wav")).lexically_normal().make_preferred().native());
+        REQUIRE(
+            fileSystem.Join({ AM_OS_STRING("./sounds"), AM_OS_STRING("../sounds/"), AM_OS_STRING("./test.wav") }) ==
+            std::filesystem::path(AM_OS_STRING("sounds/test.wav")).lexically_normal().make_preferred().native());
     }
 
     SECTION("can open files")

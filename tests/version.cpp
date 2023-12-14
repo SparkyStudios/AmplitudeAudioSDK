@@ -18,3 +18,27 @@
 
 using namespace SparkyStudios::Audio::Amplitude;
 
+TEST_CASE("Version Tests", "[version][amplitude]")
+{
+    const auto& version = amVersion;
+
+    SECTION("have the correct major version number")
+    {
+        REQUIRE(version.major == AM_VERSION_MAJOR);
+    }
+
+    SECTION("have the correct minor version number")
+    {
+        REQUIRE(version.minor == AM_VERSION_MINOR);
+    }
+
+    SECTION("have the correct patch version number")
+    {
+        REQUIRE(version.revision == AM_VERSION_PATCH);
+    }
+
+    SECTION("have the correct version string")
+    {
+        REQUIRE(version.text == "Amplitude Audio SDK " AM_TO_STRING(AM_VERSION_MAJOR) "." AM_TO_STRING(AM_VERSION_MINOR) "." AM_TO_STRING(AM_VERSION_PATCH));
+    }
+}
