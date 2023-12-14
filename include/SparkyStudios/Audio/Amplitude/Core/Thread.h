@@ -18,8 +18,6 @@
 #define SS_AMPLITUDE_AUDIO_THREAD_H
 
 #include <condition_variable>
-#include <mutex>
-#include <thread>
 
 #include <SparkyStudios/Audio/Amplitude/Core/Common.h>
 
@@ -130,6 +128,7 @@ namespace SparkyStudios::Audio::Amplitude
 
             /**
              * @brief Checks if the task is ready to be picked by the pool scheduler.
+             *
              * @return @c true if the task is ready @c false otherwise.
              */
             virtual bool Ready();
@@ -158,6 +157,7 @@ namespace SparkyStudios::Audio::Amplitude
 
             /**
              * @brief Makes the calling thread wait for this task to finish.
+             *
              * @param duration The maximum amount of time to wait in milliseconds.
              */
             bool Await(AmUInt64 duration);
@@ -173,7 +173,7 @@ namespace SparkyStudios::Audio::Amplitude
          * The Pool tasks scheduler can pick and run pool tasks on several multiple
          * threads. The number of threads is defined at initialization.
          *
-         * The maximum number of tasks the pool can manage is defined by the AM_MAX_THREAD_POOL_TASKS
+         * The maximum number of tasks the pool can manage is defined by the @c AM_MAX_THREAD_POOL_TASKS
          * macro. The default value is 1024.
          */
         class AM_API_PUBLIC Pool
@@ -198,9 +198,9 @@ namespace SparkyStudios::Audio::Amplitude
             /**
              * @brief Add a task to the tasks list.
              *
-             * @param task The PoolTask to add. The task is not automatically deleted when the work is done.
+             * @param task The PoolTask to add. The task may not be automatically deleted when the work is done.
              */
-            void AddTask(const std::shared_ptr<PoolTask>& task);
+            void AddTask(std::shared_ptr<PoolTask> task);
 
             /**
              * @brief Called from worker thread to get a new task.
@@ -222,9 +222,16 @@ namespace SparkyStudios::Audio::Amplitude
             [[nodiscard]] bool IsRunning() const;
 
             /**
-             * @brief Indicates that has tasks pending.
+             * @brief Indicates that the pool has tasks pending.
              */
             [[nodiscard]] bool HasTasks() const;
+
+            /**
+             * @brief Gets the number of tasks in the pool.
+             *
+             * @return The number of tasks in the pool.
+             */
+            [[nodiscard]] AmInt32 GetTaskCount() const;
 
         private:
             AmUInt32 _threadCount; // number of threads
