@@ -16,17 +16,17 @@
 
 #include <SparkyStudios/Audio/Amplitude/Amplitude.h>
 
-#include <Core/ListenerInternalState.h>
+#include <Core/EntityInternalState.h>
 
 using namespace SparkyStudios::Audio::Amplitude;
 
-TEST_CASE("Listener Tests", "[listener][core][amplitude]")
+TEST_CASE("Entity Tests", "[entity][core][amplitude]")
 {
-    ListenerInternalState state;
+    EntityInternalState state;
     state.SetId(1);
 
-    fplutil::intrusive_list listener_list(&ListenerInternalState::node);
-    listener_list.push_back(state);
+    fplutil::intrusive_list entity_list(&EntityInternalState::node);
+    entity_list.push_back(state);
 
     SECTION("can be used without a wrapper")
     {
@@ -76,11 +76,50 @@ TEST_CASE("Listener Tests", "[listener][core][amplitude]")
                 REQUIRE(AM_EqV3(state.GetUp(), up));
             }
         }
+
+        WHEN("the obstruction changes")
+        {
+            constexpr AmReal32 obstruction = 0.67f;
+            state.SetObstruction(obstruction);
+
+            THEN("it returns the new obstruction")
+            {
+                REQUIRE(state.GetObstruction() == obstruction);
+            }
+        }
+
+        WHEN("the occlusion changes")
+        {
+            constexpr AmReal32 occlusion = 0.43f;
+            state.SetOcclusion(occlusion);
+
+            THEN("it returns the new obstruction")
+            {
+                REQUIRE(state.GetOcclusion() == occlusion);
+            }
+        }
+
+        WHEN("an environment factor changes")
+        {
+            constexpr AmEnvironmentID environment = 1;
+            constexpr AmReal32 factor = 0.56f;
+            state.SetEnvironmentFactor(environment, factor);
+
+            THEN("it returns the new environment factor")
+            {
+                REQUIRE(state.GetEnvironmentFactor(environment) == factor);
+            }
+        }
+
+        SECTION("returns 0 as the environment factor for an unregistered environment ID")
+        {
+            REQUIRE(state.GetEnvironmentFactor(12345) == 0.0f);
+        }
     }
 
     SECTION("can be used with a wrapper")
     {
-        Listener wrapper(&state);
+        Entity wrapper(&state);
 
         SECTION("can return the correct ID")
         {
@@ -124,6 +163,28 @@ TEST_CASE("Listener Tests", "[listener][core][amplitude]")
             }
         }
 
+        WHEN("the obstruction changes")
+        {
+            constexpr AmReal32 obstruction = 0.67f;
+            wrapper.SetObstruction(obstruction);
+
+            THEN("it returns the new obstruction")
+            {
+                REQUIRE(wrapper.GetObstruction() == obstruction);
+            }
+        }
+
+        WHEN("the occlusion changes")
+        {
+            constexpr AmReal32 occlusion = 0.43f;
+            wrapper.SetOcclusion(occlusion);
+
+            THEN("it returns the new obstruction")
+            {
+                REQUIRE(wrapper.GetOcclusion() == occlusion);
+            }
+        }
+
         WHEN("the internal state wrapper is cleared")
         {
             wrapper.Clear();
@@ -133,14 +194,31 @@ TEST_CASE("Listener Tests", "[listener][core][amplitude]")
                 REQUIRE_FALSE(wrapper.Valid());
             }
         }
+
+        WHEN("an environment factor changes")
+        {
+            constexpr AmEnvironmentID environment = 1;
+            constexpr AmReal32 factor = 0.56f;
+            wrapper.SetEnvironmentFactor(environment, factor);
+
+            THEN("it returns the new environment factor")
+            {
+                REQUIRE(wrapper.GetEnvironmentFactor(environment) == factor);
+            }
+        }
+
+        SECTION("returns 0 as the environment factor for an unregistered environment ID")
+        {
+            REQUIRE(wrapper.GetEnvironmentFactor(12345) == 0.0f);
+        }
     }
 
     SECTION("cannot create a valid wrapper with a null state")
     {
-        Listener wrapper2(nullptr);
+        Entity wrapper2(nullptr);
         REQUIRE_FALSE(wrapper2.Valid());
 
-        Listener wrapper3;
+        Entity wrapper3;
         REQUIRE_FALSE(wrapper3.Valid());
     }
 }
