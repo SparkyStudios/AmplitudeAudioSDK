@@ -1,0 +1,111 @@
+{
+  "driver": "null",
+  "output": {
+    "frequency": 44100,
+    "channels": 2,
+    "buffer_size": 1024,
+    "format": "Float32"
+  },
+  "mixer": {
+    "active_channels": 50,
+    "virtual_channels": 100,
+    "pipeline_type": [
+      "AudioSoundProcessor",
+      "AudioSoundProcessor",
+      "AudioProcessorMixer",
+      "AudioSoundProcessor"
+    ],
+    "pipeline": [
+      {
+        "processor": "EffectProcessor"
+      },
+      {
+        "processor": "OcclusionProcessor"
+      },
+      {
+        "dry_processor": "ObstructionProcessor",
+        "wet_processor": "EnvironmentProcessor",
+        "dry": 0.5,
+        "wet": 0.5
+      },
+      {
+        "processor": "ClipProcessor"
+      }
+    ]
+  },
+  "game": {
+    "listener_fetch_mode": "Nearest",
+    "track_environments": true,
+    "up_axis": "Y",
+    "listeners": 100,
+    "entities": 4096,
+    "environments": 512,
+    "sound_speed": 333,
+    "doppler_factor": 1.0,
+    "obstruction": {
+      "lpf_curve": {
+        "parts": [
+          {
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 1,
+              "y": 1
+            },
+            "fader": "Linear"
+          }
+        ]
+      },
+      "gain_curve": {
+        "parts": [
+          {
+            "start": {
+              "x": 0,
+              "y": 1
+            },
+            "end": {
+              "x": 1,
+              "y": 0
+            },
+            "fader": "Linear"
+          }
+        ]
+      }
+    },
+    "occlusion": {
+      "lpf_curve": {
+        "parts": [
+          {
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 1,
+              "y": 1
+            },
+            "fader": "Linear"
+          }
+        ]
+      },
+      "gain_curve": {
+        "parts": [
+          {
+            "start": {
+              "x": 0,
+              "y": 1
+            },
+            "end": {
+              "x": 1,
+              "y": 0
+            },
+            "fader": "Linear"
+          }
+        ]
+      }
+    }
+  },
+  "buses_file": "buses.ambus"
+}
