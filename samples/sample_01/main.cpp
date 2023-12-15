@@ -76,7 +76,7 @@ static void run(AmVoidPtr param)
 {
     auto* ctx = static_cast<ExecutionContext*>(param);
 
-    ctx->fileLoader.SetBasePath(AM_OS_STRING("./assets"));
+    ctx->fileLoader.SetBasePath(AM_OS_STRING("../sample_project"));
     amEngine->SetFileSystem(&ctx->fileLoader);
 
     // Wait for the file system to complete loading.
@@ -86,7 +86,7 @@ static void run(AmVoidPtr param)
 
     const auto sdkPath = std::filesystem::path(std::getenv("AM_SDK_PATH"));
 
-    Engine::AddPluginSearchPath(AM_OS_STRING("./assets/plugins"));
+    Engine::AddPluginSearchPath(AM_OS_STRING("../sample_project/plugins"));
 #if defined(AM_WINDOWS_VERSION)
     Engine::AddPluginSearchPath(sdkPath / AM_OS_STRING("lib/win/plugins"));
 #elif defined(AM_LINUX_VERSION)
