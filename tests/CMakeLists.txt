@@ -20,7 +20,8 @@ project(${PROJECT_NAME})
 
 find_package(Catch2 CONFIG REQUIRED)
 add_executable(${PROJECT_NAME} version.cpp filesystem.cpp main.cpp
-        thread.cpp)
+        thread.cpp
+        listener.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE Catch2::Catch2 Static)
 
 add_dependencies(${PROJECT_NAME}
