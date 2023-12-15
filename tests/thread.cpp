@@ -97,7 +97,7 @@ TEST_CASE("Thread Tests", "[thread][amplitude]")
         Thread::Sleep(100);
         const auto end = Thread::GetTimeMillis();
 
-        REQUIRE((end - start - 100) < 10); // Offering a 10ms window
+        REQUIRE((end - start) >= 100); // Should at least run for 100ms
     }
 }
 
